@@ -59,23 +59,29 @@ Sprite.prototype.desenhar=function(ctx){
 
     ctx.restore();
 }
-Sprite.prototype.desenhar = function(ctx){
-    ctx.fillStyle=this.color;
-    ctx.fillStroke= "Black";
-    ctx.fillRect(this.x,this.y,this.w,this.w);
-}
-Sprite.prototype.mover = function(dt){
-    this.x = this.x + this.vx*dt;
 
-    this.vx=this.vm*Math.cos(this.a);
-    this.vy=this.vm*Math.sin(this.a);
-
-
-    this.y = this.y + this.vy*dt;
+Sprite.prototype.mover = function (dt) {
     this.a = this.a + this.va*dt;
+    this.vx = this.vm*Math.cos(this.a);
+    this.vy = this.vm*Math.sin(this.a);
+    this.x = this.x + this.vx*dt;
+    this.y = this.y + this.vy*dt;
+    this.cooldown = this.cooldown-dt;
+    if(this.imune > 0) {
+        this.imune = this.imune - 1*dt;
+    }
 
-    this.cooldown = this.cooldown - dt;
 }
+
+    //this.vx=this.vm*Math.cos(this.a);
+    //this.vy=this.vm*Math.sin(this.a);
+
+
+    //this.y = this.y + this.vy*dt;
+    //this.a = this.a + this.va*dt;
+
+    //this.cooldown = this.cooldown - dt;
+//}
 Sprite.prototype.colidiuCom=function(alvo){
     if(alvo.x+alvo.w<this.x)
         return false;
@@ -92,3 +98,36 @@ Sprite.prototype.perseguir = function(alvo){
     this.vx = 20*Math.sign(alvo.x- this.x);
     this.vy = 20*Math.sign(alvo.y- this.y);
 }
+/*function calculoAngulo(p, alvo){
+    var x1 = p.x - alvo.x;
+       var y1 = p.y - alvo.y;
+       var oX = p.x - alvo.x;
+       var oY = 0;
+       var normaX = Math.sqrt(Math.pow(x1,2) + Math.pow(y1,2));
+       var normaA = Math.sqrt(Math.pow(oX,2) + Math.pow(oY,2));
+       var prodEscalar = (x1*oX)+(y1*oY);
+
+       return Math.acos((prodEscalar)/(normaA*normaX))*-1;
+
+}
+function perseguir(alvo) {
+    
+            
+            var alfa = calculoAngulo(this,alvo);	
+            
+            if(this.x <= alvo.x && this.y <= alvo.y)
+                this.a = alfa*-1;
+            else {
+                if(this.x < alvo.x && this.y > alvo.y)
+                    this.a = alfa;
+            else {
+                if(this.x > alvo.x && this.y < alvo.y)
+                    this.a = (alfa+Math.PI);
+            else{
+                this.a = (alfa+Math.PI)*-1;
+            }
+            }
+            
+            this.vx = this.vm*Math.cos(this.a);
+            this.vy = this.vm*Math.sin(this.a);
+     }}*/
