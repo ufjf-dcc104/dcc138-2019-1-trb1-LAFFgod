@@ -127,10 +127,9 @@
         }
 
         function passor (t){
-        dt = (t-anterior)/1000;
         ctx.fillStyle = "black";
         ctx.fillRect(0,0,canvas.width,canvas.height);
-          pc.mover(dt);
+        pc.mover(dt);
         for(var i=0; i<npc.length; i++){
             npc[i].perseguir(pc);
             npc[i].mover(dt);
