@@ -7,8 +7,8 @@ function Sprite(params = {}){
         h:20,
         w:20,
         a:0,
-        va: 0,
-        vm: 0,
+        va: 0 ,
+        vm: 20,
         color: "blue",
         imune: 0,
         atirando: 0,
@@ -98,18 +98,18 @@ Sprite.prototype.colidiuCom=function(alvo){
 Sprite.prototype.perseguir = function(alvo){
     
            		
-        var alfa = calculoAngulo(this,alvo);	
+        var af = calculoAngulo(this,alvo);	
         
         if(this.x <= alvo.x && this.y <= alvo.y)
-            this.a = alfa*-1;
+            this.a = af*-1;
         else {
             if(this.x < alvo.x && this.y > alvo.y)
-                this.a = alfa;
+                this.a = af;
         else {
             if(this.x > alvo.x && this.y < alvo.y)
-                this.a = (alfa+Math.PI);
+                this.a = (af+Math.PI);
         else{
-            this.a = (alfa+Math.PI)*-1;
+            this.a = (af+Math.PI)*-1;
         }
         }
         

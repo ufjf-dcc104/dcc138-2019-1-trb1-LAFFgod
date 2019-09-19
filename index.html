@@ -59,7 +59,7 @@
             if(teclas.espaco && this.cooldown<=0){
                 var tiro = new Sprite({
                     x: this.x, y: this.y,
-                    a: this.a-0.1+0.2*Math.random(), vm: 240, color: "White", w:6, h:4
+                    a: this.a-0.1+0.2*Math.random(), vm: 240, color: "Green", w:15, h:10
                 });
                 this.scene.adicionar(tiro);
                 this.cooldown = 0.3;
