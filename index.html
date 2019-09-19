@@ -63,6 +63,10 @@
                     a: this.a-0.1+0.2*Math.random(), vm: 240, color: "Red", w:15, h:10});
                 this.scene.adicionar(tiro);
                 this.cooldown = 0.3;
+            if(tiro.colidiuCom(tiro[i])){
+                    tiro[i].x=Math.random()*canvas.height;
+                    npc[i].y=Math.random()*canvas.height;
+                }
                 
             }}
         }
