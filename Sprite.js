@@ -59,6 +59,11 @@ Sprite.prototype.desenhar=function(ctx){
 
     ctx.restore();
 }
+Sprite.prototype.desenhar = function(ctx){
+    ctx.fillStyle=this.color;
+    ctx.fillStroke= "Black";
+    ctx.fillRect(this.x,this.y,this.w,this.w);
+}
 Sprite.prototype.mover = function(dt){
     this.x = this.x + this.vx*dt;
 
@@ -70,4 +75,20 @@ Sprite.prototype.mover = function(dt){
     this.a = this.a + this.va*dt;
 
     this.cooldown = this.cooldown - dt;
+}
+Sprite.prototype.colidiuCom=function(alvo){
+    if(alvo.x+alvo.w<this.x)
+        return false;
+    if(alvo.x>this.x+this.w)
+        return false;
+    if(alvo.y+alvo.w<this.y)
+        return false;
+    if(alvo.y>this.y+this.w)
+        return false;   
+    return true;
+
+}
+Sprite.prototype.perseguir = function(alvo){
+    this.vx = 20*Math.sign(alvo.x- this.x);
+    this.vy = 20*Math.sign(alvo.y- this.y);
 }
