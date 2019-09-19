@@ -18,6 +18,25 @@ function Sprite(params = {}){
     }
     Object.assign(this, exemplo, params);
 }
+function Inimigo(params = {}){
+    var inimigo = {
+        x:0,
+        y:0,
+        vx:0,
+        vy:0,
+        h:20,
+        w:20,
+        a:0,
+        va: 0,
+        vm: 0,
+        color: "purple",
+        comportar: undefined,
+        scene: undefined,      
+    }
+    Object.assign(this, inimigo, params);
+}
+    
+
 Sprite.prototype = new Sprite();
 Sprite.prototype.constructor = Sprite;
 
