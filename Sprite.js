@@ -95,7 +95,29 @@ Sprite.prototype.colidiuCom=function(alvo){
 
 }
 
-/*function calculoAngulo(p, alvo){
+Sprite.prototype.perseguir = function(alvo){
+    
+           		
+        var alfa = calculoAngulo(this,alvo);	
+        
+        if(this.x <= alvo.x && this.y <= alvo.y)
+            this.a = alfa*-1;
+        else {
+            if(this.x < alvo.x && this.y > alvo.y)
+                this.a = alfa;
+        else {
+            if(this.x > alvo.x && this.y < alvo.y)
+                this.a = (alfa+Math.PI);
+        else{
+            this.a = (alfa+Math.PI)*-1;
+        }
+        }
+        
+        this.vx = this.vm*Math.cos(this.a);
+         this.vy = this.vm*Math.sin(this.a);
+ }
+}
+function calculoAngulo(p, alvo){
     var x1 = p.x - alvo.x;
        var y1 = p.y - alvo.y;
        var oX = p.x - alvo.x;
@@ -107,24 +129,3 @@ Sprite.prototype.colidiuCom=function(alvo){
        return Math.acos((prodEscalar)/(normaA*normaX))*-1;
 
 }
-function perseguir(alvo) {
-    
-            
-            var alfa = calculoAngulo(this,alvo);	
-            
-            if(this.x <= alvo.x && this.y <= alvo.y)
-                this.a = alfa*-1;
-            else {
-                if(this.x < alvo.x && this.y > alvo.y)
-                    this.a = alfa;
-            else {
-                if(this.x > alvo.x && this.y < alvo.y)
-                    this.a = (alfa+Math.PI);
-            else{
-                this.a = (alfa+Math.PI)*-1;
-            }
-            }
-            
-            this.vx = this.vm*Math.cos(this.a);
-            this.vy = this.vm*Math.sin(this.a);
-     }}*/
