@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="Sprite.js"></script>
     <script src="Scene.js"></script>
+    <script src="inimigos.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -29,8 +30,8 @@
         var cena1= new Scene({ctx: ctx, w:canvas.width, h:canvas.height});
         var pc = new Sprite({x:250, y:760, comportar: porTeclasDirecionais(teclas)});
         cena1.adicionar(pc);
-        //cena1.adicionar(new Sprite({x:160, y:150, color:"red",va:23, comportar: persegue(pc)}));
-        //cena1.adicionar(new Sprite({x:60, y:250, color:"red",va:6, comportar: persegue(pc)}));
+        cena1.adicionar(new inimigo({x:160, y:150, color:"Purple",va:23, comportar: persegue(pc)}));
+        cena1.adicionar(new inimigo({x:60, y:250, color:"Purple",va:6, comportar: persegue(pc)}));
 
         function persegue(alvo){
             return function(){
