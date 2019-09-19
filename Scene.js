@@ -1,7 +1,8 @@
 function Scene(params){
     var exemplo={
         sprites: [],
-        ctx: null
+        ctx: null,
+        img: null,
     }
     Object.assign(this, exemplo, params);
 }
@@ -18,6 +19,7 @@ Scene.prototype.desenhar = function(){
         this.sprites[i].desenhar(this.ctx);
     }
 };
+
 Scene.prototype.background = function(){
     ctx.drawImage(this.img,0,0);
     

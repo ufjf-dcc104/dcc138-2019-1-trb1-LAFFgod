@@ -8,6 +8,7 @@ function Sprite(params = {}){
         w:20,
         a:0,
         va: 0 ,
+        props: {},
         vm: 20,
         color: "blue",
         imune: 0,
@@ -47,7 +48,7 @@ Sprite.prototype.desenhar=function(ctx){
     //ctx.strokeRect(-this.w/2,-this.h/2, this.w, this.h);
     ctx.rotate(this.a);
     ctx.fillStyle = this.color;
-    ctx.fillStroke= "black";
+    ctx.fillStroke= "white";
     ctx.lineWidth= 1;
     ctx.beginPath();
     ctx.moveTo(-this.w/2, -this.h/2);

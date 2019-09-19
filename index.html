@@ -7,6 +7,12 @@
     <script src="Scene.js"></script>
     <script src="Inib.js"></script>
     <title>Aster-void</title>
+    <style>
+            @font-face {
+              font-family: Eurostile;
+              src: url("font/eurostile.otf");
+              }
+          </style>
 </head>
 <body>
     <canvas>
@@ -57,12 +63,12 @@
                 if(teclas.cima === teclas.baixo){this.vm=0;}
             
             if(teclas.espaco && this.cooldown<=0){
-                var tiro = new Sprite({
-                    x: this.x, y: this.y,
-                    a: this.a-0.1+0.2*Math.random(), vm: 240, color: "Green", w:15, h:10
-                });
+                var tiro = new Sprite({ 
+                    x: this.x, y: this.y ,
+                    a: this.a-0.1+0.2*Math.random(), vm: 240, color: "Red", w:15, h:10});
                 this.scene.adicionar(tiro);
                 this.cooldown = 0.3;
+                
             }}
         }
         addEventListener("keydown",function(e){
@@ -121,7 +127,7 @@
            npc[i]=  new Sprite({
                x:Math.random()*canvas.height,
                y:Math.random()*canvas.width,
-               color: "red"
+               color: "Purple"
             });
         }
 
@@ -139,10 +145,18 @@
 
         for(var i=0; i<npc.length; i++){
             npc[i].desenhar(ctx);
+            var hp= 100;
             if(pc.colidiuCom(npc[i])){
+                hp=hp-25;
+                
                 ctx.font="bold 150px Impact";
                 ctx.fillStyle="Red";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillText('hp', 50, 50);
+                ctx.fillStyle="White";
+
+                
 
                 ctx.fillStyle="Blue";
                 ctx.fillText("SE", 200, 150);
