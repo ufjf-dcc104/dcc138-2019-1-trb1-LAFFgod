@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="Sprite.js"></script>
     <script src="Scene.js"></script>
-    
+    <script src="Inib.js"></script>
     <title>Aster-void</title>
 </head>
 <body>
@@ -13,117 +13,20 @@
 
     </canvas>
     <script>
+        //
         var canvas = document.querySelector("canvas");
         canvas.width= 500;
         canvas.height= 780;
         var ctx = canvas.getContext("2d");
+        //
+        var anterior = 0;
+        var dt = 0;
+        
+        var npc = []; 
+        var NNPC = 10;
+        //
        
-        /*var fase1 = {
-            objective: function(cena){
-                return cena.eventos.length == 0 && cena.inimigos.length == 0;
-            },
-            eventos: [
-            {t:0, tipo: "spawnaInimigos", inimigos:[
-                    { //se eu colocar a = { .......} para de dar erro, mas sei la;
-                        x:(1 +0.25*Math.random())*canvas.width,
-                        y:Math.random()*canvas.height,
-                        vMax: (0.9 + 0.5*Math.random())*200,
-                        tipo: "soldado",
-                        color: "red",
-                        w:15,
-                        h:15
-                    },
-                    { 
-                        x:(1 +0.25*Math.random())*canvas.width,
-                        y:Math.random()*canvas.height,
-                        vMax: (0.9 + 0.5*Math.random())*200,
-                        tipo: "soldado",
-                        color: "red",
-                        w:15,
-                        h:15
-                    },
-                    { 
-                        x:(1 +0.25*Math.random())*canvas.width,
-                        y:Math.random()*canvas.height,
-                        vMax: (0.9 + 0.5*Math.random())*200,
-                        tipo: "soldado",
-                        color: "red",
-                        w:15,
-                        h:15
-                    },
-                    { 
-                        x:(1 +0.25*Math.random())*canvas.width,
-                        y:Math.random()*canvas.height,
-                        vMax: (0.9 + 0.5*Math.random())*200,
-                        tipo: "soldado",
-                        color: "red",
-                        w:15,
-                        h:15
-                    },
-                    { 
-                        x:(1 +0.25*Math.random())*canvas.width,
-                        y:Math.random()*canvas.height,
-                        vMax: (0.9 + 0.5*Math.random())*200,
-                        tipo: "soldado",
-                        color: "red",
-                        w:15,
-                        h:15
-                    },
-
-                ]},
-                {t:10, tipo: "spawnaInimigos", inimigos:[
-                    {
-                        x: (1 -0.25*Math.random())*canvas.width,
-                        y: (1 + 0.3*Math.random())*canvas.height,
-                        vMax: (1.9 + 0.5*Math.random())*200,
-                        tipo: "soldado",
-                        color: "red",
-                        w:15,
-                        h:15
-                    },
-                    {
-                        x:(1 -0.25*Math.random())*canvas.width,
-                        y:(1+ 0.3*Math.random())*canvas.height,
-                        vMax: (0.5 + 0.5*Math.random())*200,
-                        tipo: "soldado",
-                        color: "red",
-                        w:15,
-                        h:15
-                    },
-                    {
-                    x: (1 -0.25*Math.random())*canvas.width,
-                    y: (1 + 0.3*Math.random())*canvas.height,
-                    vMax: (1.9 + 0.5*Math.random())*200,
-                    tipo: "soldado",
-                    color: "red",
-                    w:15,
-                    h:15
-                },
-                {
-                    x: (1 -0.25*Math.random())*canvas.width,
-                    y: (1 + 0.3*Math.random())*canvas.height,
-                    vMax: (1.9 + 0.5*Math.random())*200,
-                    tipo: "soldado",
-                    color: "red",
-                    w:15,
-                    h:15
-                },
-                {
-                    x: (1 -0.25*Math.random())*canvas.width,
-                    y: (1 + 0.3*Math.random())*canvas.height,
-                    vMax: (1.9 + 0.5*Math.random())*200,
-                    tipo: "soldado",
-                    color: "red",
-                    w:15,
-                    h:15
-                },
-
-                ]},
-            ]
-        }
-
-        cena1.fases.push(fase1);*/
-
+        
         var teclas ={
             esquerda: 0,  
             
@@ -132,17 +35,28 @@
             espaco: 0,
             
         }
-
+        
+       function desenhaPC(ctx) {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.w, this.w);
+            ctx.strokeStyle = "black ";
+            ctx.strokeRect(this.x, this.y, this.w, this.w);
+        }
         var cena1= new Scene({ctx: ctx, w:canvas.width, h:canvas.height});
         var pc = new Sprite({x:250, y:760, comportar: porTeclasDirecionais(teclas)});
         cena1.adicionar(pc);
-        //cena1.adicionar(new inimigo({x:160, y:150, color:"red",va:23, comportar: persegue(pc)}));
+        //cena1.adicionar(new inimigo({x:250, y:0}));
         //cena1.adicionar(new inimigo({x:60, y:250, color:"red",va:6, comportar: persegue(pc)}));
         
 
-
-
         
+
+        function desenhaChao() {
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+
         function persegue(alvo){
             return function(){
             this.vx=20*Math.sign(alvo.x - this.x);
@@ -165,7 +79,7 @@
                     a: this.a-0.1+0.2*Math.random(), vm: 240, color: "green", w:4, h:4
                 });
                 this.scene.adicionar(tiro);
-                this.cooldown = 0.3;
+                this.cooldown = 0.15;
             }}
         }
         addEventListener("keydown",function(e){
@@ -202,11 +116,35 @@
                     break;
             }
         });
+        for(var i=0; i<NNPC; i++){
+           npc[i]=  new Sprite({
+               x:Math.random()*canvas.height,
+               y:Math.random()*canvas.width,
+               color: "red"
+            });
+        }
 
         function passo (t){
-            dt = (t-anterior)/1000;
-            cena1.passo(dt);
-            anterior = t;
+        dt = (t-anterior)/1000;
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        cena1.passo(dt);
+        anterior = t;
+        pc.mover(dt);
+        for(var i=0; i<npc.length; i++){
+            npc[i].perseguir(pc);
+            npc[i].mover(dt);
+        }
+
+        pc.desenhar(ctx);
+
+        for(var i=0; i<npc.length; i++){
+            npc[i].desenhar(ctx);
+            if(pc.colidiuCom(npc[i])){
+                npc[i].x=Math.random()*canvas.height;
+                npc[i].y=Math.random()*canvas.height;
+        }
+    }
             requestAnimationFrame(passo);
         }
         var dt, anterior = 0;

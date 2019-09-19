@@ -18,7 +18,7 @@ function Sprite(params = {}){
     }
     Object.assign(this, exemplo, params);
 }
-function Inimigo(params = {}){
+/*function Inimigo(params = {}){
     var inimigo = {
         x:0,
         y:0,
@@ -34,7 +34,7 @@ function Inimigo(params = {}){
         scene: undefined,      
     }
     Object.assign(this, inimigo, params);
-}
+}*/
     
 
 Sprite.prototype = new Sprite();
