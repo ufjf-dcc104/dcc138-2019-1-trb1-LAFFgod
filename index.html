@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="Sprite.js"></script>
+    <script src="Scene.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <canvas>
+
+    </canvas>
+    <script>
+               var canvas = document.querySelector("canvas");
+        canvas.width= 500;
+        canvas.height= 780;
+        var ctx = canvas.getContext("2d");
+        
+        var teclas ={
+            esquerda: 0,  
+            
+            direita: 0,
+            
+            espaco: 0,
+            
+        }
+
+        var cena1= new Scene({ctx: ctx, w:canvas.width, h:canvas.height});
+        var pc = new Sprite({x:250, y:760, comportar: porTeclasDirecionais(teclas)});
+        cena1.adicionar(pc);
+        //cena1.adicionar(new Sprite({x:160, y:150, color:"red",va:23, comportar: persegue(pc)}));
+        //cena1.adicionar(new Sprite({x:60, y:250, color:"red",va:6, comportar: persegue(pc)}));
+
+        function persegue(alvo){
+            return function(){
+            this.vx=20*Math.sign(alvo.x - this.x);
+            this.vy=20*Math.sign(alvo.y - this.y);
+        }
+    }
+        function porTeclasDirecionais(teclas){
+            return function(){
+                if(teclas.esquerda){this.va=-2;}
+                if(teclas.direita){this.va=+2;}
+                if(teclas.esquerda === teclas.direita){this.va=0;}
+
+                
+               
+                
+            
+            if(teclas.espaco && this.cooldown<=0){
+                var tiro = new Sprite({
+                    x: this.x, y: this.y,
+                    a: this.a-0.1+0.2*Math.random(), vm: 240, color: "green", w:4, h:4
+                });
+                this.scene.adicionar(tiro);
+                this.cooldown = 0.3;
+            }}
+        }
+        addEventListener("keydown",function(e){
+            switch (e.keyCode) {
+                case 32:
+                    teclas.espaco=1;
+                    break;
+                case 37:
+                    teclas.esquerda=1;
+                    break;
+                
+                case 39:
+                    teclas.direita=1;
+                    break;
+                
+                default:
+                    break;
+            }
+        });
+        addEventListener("keyup",function(e){
+            switch (e.keyCode) {
+                case 32:
+                    teclas.espaco=0;
+                    break;
+                case 37:
+                    teclas.esquerda=0;
+                    break;
+                
+                case 39:
+                    teclas.direita=0;
+                    break;
+               
+                default:
+                    break;
+            }
+        });
+
+        function passo (t){
+            dt = (t-anterior)/1000;
+            cena1.passo(dt);
+            anterior = t;
+            requestAnimationFrame(passo);
+        }
+        var dt, anterior = 0;
+        requestAnimationFrame(passo);
+    </script>
+</body>
+</html>
