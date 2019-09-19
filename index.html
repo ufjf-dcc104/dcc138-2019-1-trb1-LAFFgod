@@ -108,7 +108,14 @@
                     break;
             }
         });
-
+        function passo (t){
+            dt = (t-anterior)/1000;
+            cena1.passo(dt);
+            anterior = t;
+            requestAnimationFrame(passo);
+        }
+        var dt, anterior = 0;
+        requestAnimationFrame(passo)  ;      
 
         
         for(var i=0; i<NNPC; i++){
@@ -119,13 +126,11 @@
             });
         }
 
-        function passo (t){
+        function passor (t){
         dt = (t-anterior)/1000;
         ctx.fillStyle = "black";
         ctx.fillRect(0,0,canvas.width,canvas.height);
-        cena1.passo(dt);
-        anterior = t;
-        pc.mover(dt);
+          pc.mover(dt);
         for(var i=0; i<npc.length; i++){
             npc[i].perseguir(pc);
             npc[i].mover(dt);
@@ -150,10 +155,10 @@
                 ctx.fillText("FORTE ", 90, 700);
         }
     }
-            requestAnimationFrame(passo);
+            requestAnimationFrame(passor);
+            
         }
-        var dt, anterior = 0;
-        requestAnimationFrame(passo);
+        requestAnimationFrame(passor);
     </script>
 </body>
 </html>
