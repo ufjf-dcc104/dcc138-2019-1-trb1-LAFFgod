@@ -94,10 +94,7 @@ Sprite.prototype.colidiuCom=function(alvo){
     return true;
 
 }
-Sprite.prototype.perseguir = function(alvo){
-    this.vx = 20*Math.sign(alvo.x- this.x);
-    this.vy = 20*Math.sign(alvo.y- this.y);
-}
+
 /*function calculoAngulo(p, alvo){
     var x1 = p.x - alvo.x;
        var y1 = p.y - alvo.y;

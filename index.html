@@ -17,7 +17,10 @@
         var canvas = document.querySelector("canvas");
         canvas.width= 560;
         canvas.height= 780;
+        var img = new Image();
+
         var ctx = canvas.getContext("2d");
+        img.src = "img/bg.jpg";
         //
         var anterior = 0;
         var dt = 0;
@@ -40,13 +43,9 @@
         var cena1= new Scene({ctx: ctx, w:canvas.width, h:canvas.height});
         var pc = new Sprite({x:250, y:760, comportar: porTeclasDirecionais(teclas)});
         cena1.adicionar(pc);
- 
-        function persegue(alvo){
-            return function(){
-            this.vx=20*Math.sign(alvo.x - this.x);
-            this.vy=20*Math.sign(alvo.y - this.y);
-        }
-    }
+        
+        
+    
     function porTeclasDirecionais(teclas){
             return function(){
                 if(teclas.esquerda){this.va=-2;}
