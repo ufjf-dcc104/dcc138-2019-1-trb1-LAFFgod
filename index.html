@@ -15,7 +15,7 @@
     <script>
         //
         var canvas = document.querySelector("canvas");
-        canvas.width= 500;
+        canvas.width= 560;
         canvas.height= 780;
         var ctx = canvas.getContext("2d");
         //
@@ -36,12 +36,7 @@
             
         }
         
-       function desenhaPC(ctx) {
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.w, this.w);
-            ctx.strokeStyle = "black ";
-            ctx.strokeRect(this.x, this.y, this.w, this.w);
-        }
+     
         var cena1= new Scene({ctx: ctx, w:canvas.width, h:canvas.height});
         var pc = new Sprite({x:250, y:760, comportar: porTeclasDirecionais(teclas)});
         cena1.adicionar(pc);
@@ -51,10 +46,7 @@
 
         
 
-        function desenhaChao() {
-            ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
+    
         
 
         function persegue(alvo){
@@ -116,6 +108,9 @@
                     break;
             }
         });
+
+
+        
         for(var i=0; i<NNPC; i++){
            npc[i]=  new Sprite({
                x:Math.random()*canvas.height,
@@ -141,8 +136,18 @@
         for(var i=0; i<npc.length; i++){
             npc[i].desenhar(ctx);
             if(pc.colidiuCom(npc[i])){
-                npc[i].x=Math.random()*canvas.height;
-                npc[i].y=Math.random()*canvas.height;
+                ctx.font="bold 150px Impact";
+                ctx.fillStyle="Red";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle="Blue";
+                ctx.fillText("SE", 200, 150);
+                ctx.fillStyle="Blue";
+                ctx.fillText("FUDEU", 80, 300);
+                ctx.fillStyle="Blue";
+                ctx.fillText("MUITO", 70, 500);
+                ctx.fillStyle="Blue";
+                ctx.fillText("FORTE ", 90, 700);
         }
     }
             requestAnimationFrame(passo);
