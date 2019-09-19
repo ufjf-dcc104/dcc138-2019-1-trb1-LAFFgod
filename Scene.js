@@ -3,6 +3,7 @@ function Scene(params){
         sprites: [],
         ctx: null,
         img: null,
+        props: {},
     }
     Object.assign(this, exemplo, params);
 }
@@ -25,6 +26,7 @@ Scene.prototype.background = function(){
     
     
 };
+
 Scene.prototype.mover = function(){
     for(var i = 0; i<this.sprites.length; i++){
         this.sprites[i].mover(dt);
@@ -43,5 +45,6 @@ Scene.prototype.passo=function(dt){
     this.limpar();
     this.comportar();
     this.mover(dt);
+    
     this.desenhar();
 }

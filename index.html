@@ -45,7 +45,27 @@
         var pc = new Sprite({x:250, y:760, comportar: porTeclasDirecionais(teclas)});
         cena1.adicionar(pc);
         
-        
+        function draw() {
+             var ctx = document.getElementById('canvas').getContext('2d');
+
+ 
+            ctx.fillStyle = 'rgb(255, 221, 0)';
+            ctx.fillRect(0, 0, 150, 37.5);
+            ctx.fillStyle = 'rgb(102, 204, 0)';
+            ctx.fillRect(0, 37.5, 150, 37.5);
+            ctx.fillStyle = 'rgb(0, 153, 255)';
+            ctx.fillRect(0, 75, 150, 37.5);
+            ctx.fillStyle = 'rgb(255, 51, 0)';
+            ctx.fillRect(0, 112.5, 150, 37.5);
+
+ 
+             for (var i = 0; i < 10; i++) {
+                ctx.fillStyle = 'rgba(255, 255, 255, ' + (i + 1) / 10 + ')';
+             for (var j = 0; j < 4; j++) {
+                 ctx.fillRect(5 + i * 14, 5 + j * 37.5, 14, 27.5);
+    }
+  }
+}
     
     function porTeclasDirecionais(teclas){
             return function(){
@@ -63,13 +83,16 @@
                     a: this.a-0.1+0.2*Math.random(), vm: 240, color: "Red", w:15, h:10});
                 this.scene.adicionar(tiro);
                 this.cooldown = 0.3;
-            if(tiro.colidiuCom(tiro[i])){
-                    tiro[i].x=Math.random()*canvas.height;
-                    npc[i].y=Math.random()*canvas.height;
-                }
+            
+            
                 
-            }}
+            }
+
+            
         }
+        }
+      
+       
         addEventListener("keydown",function(e){
             switch (e.keyCode) {
                 case 32:
@@ -113,9 +136,11 @@
             }
         });
         function passo (t){
+            
             dt = (t-anterior)/1000;
             cena1.passo(dt);
             anterior = t;
+            
             requestAnimationFrame(passo);
         }
         var dt, anterior = 0;
@@ -131,16 +156,17 @@
         }
 
         function passor (t){
-        ctx.fillStyle = "black";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
+        //ctx.fillStyle = "black";
+         //ctx.fillRect(0,0,canvas.width,canvas.height);
+        
         pc.mover(dt);
         for(var i=0; i<npc.length; i++){
             npc[i].perseguir(pc);
             npc[i].mover(dt);
+            
         }
-        
-
         pc.desenhar(ctx);
+        
 
         for(var i=0; i<npc.length; i++){
             npc[i].desenhar(ctx);
