@@ -5,33 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="Sprite.js"></script>
     <script src="Scene.js"></script>
-    <script src="inimigos.js"></script>
+    <script src="Inimigo.js"></script>
     <title>Document</title>
 </head>
 <body>
     <canvas>
-
     </canvas>
     <script>
-               var canvas = document.querySelector("canvas");
+        var canvas = document.querySelector("canvas");
         canvas.width= 500;
         canvas.height= 780;
         var ctx = canvas.getContext("2d");
         
         var teclas ={
             esquerda: 0,  
-            
             direita: 0,
-            
-            espaco: 0,
-            
+            espaco: 0, 
         }
 
         var cena1= new Scene({ctx: ctx, w:canvas.width, h:canvas.height});
         var pc = new Sprite({x:250, y:760, comportar: porTeclasDirecionais(teclas)});
         cena1.adicionar(pc);
-        cena1.adicionar(new inimigo({x:160, y:150, color:"Purple",va:23, comportar: persegue(pc)}));
-        cena1.adicionar(new inimigo({x:60, y:250, color:"Purple",va:6, comportar: persegue(pc)}));
+        //cena1.adicionar(new inimigo({x:160, y:150, color:"Purple"}));
+        //cena1.adicionar(new inimigo({x:60, y:250, color:"Purple"}));
 
         function persegue(alvo){
             return function(){
@@ -45,10 +41,6 @@
                 if(teclas.direita){this.va=+2;}
                 if(teclas.esquerda === teclas.direita){this.va=0;}
 
-                
-               
-                
-            
             if(teclas.espaco && this.cooldown<=0){
                 var tiro = new Sprite({
                     x: this.x, y: this.y,
@@ -66,11 +58,9 @@
                 case 37:
                     teclas.esquerda=1;
                     break;
-                
                 case 39:
                     teclas.direita=1;
                     break;
-                
                 default:
                     break;
             }
@@ -83,11 +73,9 @@
                 case 37:
                     teclas.esquerda=0;
                     break;
-                
                 case 39:
                     teclas.direita=0;
                     break;
-               
                 default:
                     break;
             }
