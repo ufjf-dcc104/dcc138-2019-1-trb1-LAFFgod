@@ -1,179 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aster-void</title>
     <script src="Sprite.js"></script>
     <script src="Scene.js"></script>
-   
-    <title>Aster-void</title>
-    
 </head>
+
 <body>
-    <canvas>
-
-    </canvas>
+    <canvas></canvas>
     <script>
-        //
         var canvas = document.querySelector("canvas");
-        canvas.width= 560;
-        canvas.height= 780;
-        var img = new Image();
-
+        canvas.width = 560;
+        canvas.height = 780;
         var ctx = canvas.getContext("2d");
-        img.src = "img/bg.jpg";
-        //
-        var anterior = 0;
-        var dt = 0;
         
-        var npc = []; 
-        var NNPC = 10;
-        //
-       
-        
-        var teclas ={
+        var teclas = {
             esquerda: 0,
             cima: 0,
             direita: 0,
             baixo: 0,
-            espaco: 0,
-            
+            espaco: 0
         }
-        
-     
-        var cena1= new Scene({ctx: ctx, w:canvas.width, h:canvas.height});
-        var pc = new Sprite({x:250, y:760, comportar: porTeclasDirecionais(teclas)});
+
+        var cena1 = new Scene({ ctx: ctx, w: canvas.width, h: canvas.height });
+        var pc = new Sprite({ x:250, y:760, comportar: porTeclasDirecionais(teclas), props:{tipo:"pc"} });
         cena1.adicionar(pc);
+        for (var w = 0; w< 1; w++){
+            cena1.adicionar(new Sprite({
+                x: 700*Math.random(), 
+                y: -100*Math.random(), 
+                 w: 15, 
+                 va:2, 
+                 vm:30, 
+                 color: "yellow",
+                 comportar: persegueSpawn(pc),
+                 props:{tipo:"npc",color:"red",
+                 spawn:0} }));
+        }
         
-        function draw() {
-             var ctx = document.getElementById('canvas').getContext('2d');
+        for (var k = 0; k < 10; k++) {
+          
+            cena1.adicionar(new Sprite({
+                x: 500*Math.random(), 
+                y: -100*Math.random(), 
+                h: 20, 
+                va:2*Math.random(), 
+                vm:40,
+                color: "purple", comportar: persegue2(pc) , props:{tipo:"npc"}}));
 
- 
-            ctx.fillStyle = 'rgb(255, 221, 0)';
-            ctx.fillRect(0, 0, 150, 37.5);
-            ctx.fillStyle = 'rgb(102, 204, 0)';
-            ctx.fillRect(0, 37.5, 150, 37.5);
-            ctx.fillStyle = 'rgb(0, 153, 255)';
-            ctx.fillRect(0, 75, 150, 37.5);
-            ctx.fillStyle = 'rgb(255, 51, 0)';
-            ctx.fillRect(0, 112.5, 150, 37.5);
-
- 
-             for (var i = 0; i < 10; i++) {
-                ctx.fillStyle = 'rgba(255, 255, 255, ' + (i + 1) / 10 + ')';
-             for (var j = 0; j < 4; j++) {
-                 ctx.fillRect(5 + i * 14, 5 + j * 37.5, 14, 27.5);
-    }
-  }
-}
-    
-    function porTeclasDirecionais(teclas){
-            return function(){
-                if(teclas.esquerda){this.va=-2;}
-                if(teclas.direita){this.va=+2;}
-                if(teclas.esquerda === teclas.direita){this.va=0;}
-
-                if(teclas.cima){this.vm=+120;}
-                if(teclas.baixo){this.vm=-120;}
-                if(teclas.cima === teclas.baixo){this.vm=0;}
             
-            if(teclas.espaco && this.cooldown<=0){
-                var tiro = new Sprite({ 
-                    x: this.x, y: this.y ,
-                    a: this.a-0.1+0.2*Math.random(), vm: 240, color: "Red", w:15, h:10});
-                this.scene.adicionar(tiro);
-                this.cooldown = 0.3;
-            
-            
-                
+        }
+        function persegue(alvo) {
+            return function () {
+                this.vx = 20 * Math.sign(alvo.x - this.x);
+                this.vy = 20 * Math.sign(alvo.y - this.y);
             }
+        }
+        function score(){
 
-            
         }
-        }
-      
-       
-        addEventListener("keydown",function(e){
-            switch (e.keyCode) {
-                case 32:
-                    teclas.espaco=1;
-                    break;
-                case 37:
-                    teclas.esquerda=1;
-                    break;
-                case 38:
-                    teclas.cima=1;
-                    break;
-                case 39:
-                    teclas.direita=1;
-                    break;
-                case 40:
-                    teclas.baixo=1;
-                    break;
-                default:
-                    break;
+
+        
+        function barraHp(){
+                var hp= 100;
+
+                for(var i = 0; i<npc.length; i++){
+                    if(pc.colidiuCom(npc[i])){
+                        ctx.fillStyle="Black";
+                        hp=hp-25;
+                }
             }
-        });
-        addEventListener("keyup",function(e){
-            switch (e.keyCode) {
-                case 32:
-                    teclas.espaco=0;
-                    break;
-                case 37:
-                    teclas.esquerda=0;
-                    break;
-                case 38:
-                    teclas.cima=0;
-                    break;
-                case 39:
-                    teclas.direita=0;
-                    break;
-                case 40:
-                    teclas.baixo=0;
-                    break;
-                default:
-                    break;
-            }
-        });
-        function passo (t){
-            
-            dt = (t-anterior)/1000;
-            cena1.passo(dt);
-            anterior = t;
-            
-            requestAnimationFrame(passo);
-        }
-        var dt, anterior = 0;
-        requestAnimationFrame(passo)  ;      
-
-        
-        for(var i=0; i<NNPC; i++){
-           npc[i]=  new Sprite({
-               x:Math.random()*canvas.height,
-               y:Math.random()*canvas.width,
-               color: "Purple"
-            });
-        }
-
-        function passor (t){
-        //ctx.fillStyle = "black";
-         //ctx.fillRect(0,0,canvas.width,canvas.height);
-        
-        pc.mover(dt);
-        for(var i=0; i<npc.length; i++){
-            npc[i].perseguir(pc);
-            npc[i].mover(dt);
-            
-        }
-        pc.desenhar(ctx);
-        
-
-        for(var i=0; i<npc.length; i++){
-            npc[i].desenhar(ctx);
-            var hp= 100;
-            if(pc.colidiuCom(npc[i])){
-                hp=hp-25;
-                
+                if(hp==0){
                 ctx.font="bold 150px Impact";
                 ctx.fillStyle="Red";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -191,12 +91,127 @@
                 ctx.fillText("MUITO", 70, 500);
                 ctx.fillStyle="Blue";
                 ctx.fillText("FORTE ", 90, 700);
-        }
+                }
     }
-            requestAnimationFrame(passor);
+        function persegue2(alvo) {
+            return function () {
+                var dx = alvo.x - this.x;
+                var dy = alvo.y - this.y;
+                var da = Math.sqrt(dx*dx + dy*dy);
+                var adj = 1.5; 
+                var prod = (dx/da)*Math.cos(this.a +adj) +
+                (dy/da)*Math.sin(this.a +adj);
+
+                this.va = 2*(prod-0);
+                //this.vm = 30;
+            }
+        }
+        
+        function persegueSpawn(alvo) {
+            return function () {
+                var dx = alvo.x - this.x;
+                var dy = alvo.y - this.y;
+                var da = Math.sqrt(dx*dx + dy*dy);
+                var adj = 1.5; 
+                var prod = (dx/da)*Math.cos(this.a +adj) +
+                (dy/da)*Math.sin(this.a +adj);
+
+                this.va = 2*(prod-0);
+                this.props.spawn -= (1/60);
+                if(this.props.spawn<=0){
+                    this.props.spawn = 2;
+                    var novo = new Sprite({
+                        x : this.x, y: this.y,
+                        vm: 100*Math.random(),
+                        props: {tipo: "npc"},
+                        comportar: persegue2(alvo) 
+                    });
+                    this.scene.adicionar(novo);
+                }
+                //this.vm = 30;
+            }
+        }
+        
+
+        function porTeclasDirecionais(teclas) {
+            return function () {
+                if (teclas.esquerda) { this.va = -2; }
+                if (teclas.direita) { this.va = +2; }
+                if (teclas.esquerda === teclas.direita) { this.va = 0; }
+                
+                if (teclas.cima) { this.vm = +0; }
+                if (teclas.baixo) { this.vm = -0; }
+                if (teclas.cima === teclas.baixo) { this.vm = 0; }
+
+                if(teclas.espaco && this.cooldown<=0){
+                    var tiro = new Sprite({
+                        x: this.x, y: this.y,
+                        a: this.a-0.1+0.2*Math.random(),
+                        vm: 240, color:"black", w:5, h:4,
+                        props:{tipo: "tiro"}
+                    });
+                    this.scene.adicionar(tiro);
+                    this.cooldown = 0.2;
+                }
+            }
+        }
+        addEventListener("keydown", function (e) {
+            switch (e.keyCode) {
+                case 32:
+                    teclas.espaco = 1;
+                    break;
+                case 37:
+                    teclas.esquerda = 1;
+                    break;
+                case 38:
+                    teclas.cima = 1;
+                    break;
+                case 39:
+                    teclas.direita = 1;
+                    break;
+                    case 40:
+                    teclas.baixo = 1;
+                    break;
+            }
+        });
+        addEventListener("keyup", function (e) {
+            switch (e.keyCode) {
+                case 32:
+                    teclas.espaco = 0;
+                    break;
+                case 37:
+                    teclas.esquerda = 0;
+                    break;
+                case 38:
+                    teclas.cima = 0;
+                    break;
+                    case 39:
+                    teclas.direita = 0;
+                    break;
+                case 40:
+                    teclas.baixo = 0;
+                    break;
+                }
+        });
+        
+        function passo(t) {
+            
+            dt = (t - anterior) / 1000;
+            cena1.passo(dt);
+            anterior = t;   
+            ctx.fillText(1/dt, 10,20);
+            
+            requestAnimationFrame(passo);
             
         }
-        requestAnimationFrame(passor);
+
+        var dt, anterior = 0;
+        requestAnimationFrame(passo);
+       
+        
+
+
     </script>
 </body>
+
 </html>
